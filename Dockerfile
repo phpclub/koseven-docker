@@ -1,0 +1,1 @@
+FROM koseven/docker:travis-devel

@@ -25,7 +25,7 @@ e.g. This will pull the master branch image:
 `docker pull koseven/docker:latest`
 
 e.g This will pull the travis branch image:
-`docker pull koseven/docker:travis`
+`docker pull koseven/docker:travis-devel`
 
 After executing the `docker pull` command from above you're done setting up
 your docker image, now you can go ahead and use it!
@@ -34,7 +34,7 @@ your docker image, now you can go ahead and use it!
 
 __Coming Soon. Stay tuned!__
 
-## Example for using `travis` image
+## Example for using `travis-devel` image
 
 For this particular Image you have multiple options. 
 
@@ -42,24 +42,39 @@ For this particular Image you have multiple options.
    you are good to go!
    
 2. Run the tests from the cli. Execute the following cli commands (from within your Koseven installation folder):
-   1. Start container in background and mount installation folder:  
-   `docker run -dtP --name unittest -v $(pwd):/tmp/koseven/ koseven/docker:travis`
+   Start container in background and mount installation folder:  
 
-   2. Start services, install composer requirements and run PHPUnit  
-   `docker exec unittest /bin/sh -c "service redis-server start; cd /tmp/koseven; composer install; php vendor/bin/phpunit"`
+   ```shell
+   docker run -dtP --name unittest -v $(pwd):/tmp/koseven/ koseven/docker:travis-devel
+   ```
+
+ 3. Start services, install composer requirements and run PHPUnit  
+   ```shell
+   docker exec unittest /bin/sh -c "service redis-server start; cd /tmp/koseven; composer install; php vendor/bin/phpunit --globals-backup"
+   ```
    
 _(Hint) You can execute a `/bin/bash` shell inside the container and modify it before Unit-Testing  
-`docker exec -i -t unittest /bin/bash`_
+```shell
+docker exec -it unittest /bin/bash
+```
+_(Hint) You can execute a single test
+```shell
+docker exec -it unittest /bin/bash
+service redis-server start; cd /tmp/koseven; composer install;
+php vendor/bin/phpunit   --filter HTMLTest
+php vendor/bin/phpunit   --filter HTMLTest --debug 
+```
+_
 
 For more examples / tutorials how to create and interact with container visit the official [Docker Help](https://docs.docker.com/get-started/)
 
 ## Roadmap
 
-| Target                 | Release date       |
-| ---------------------- | ------------------ |
-| Initial `master` image | 2019.11.??         |
-| Initial `travis` image | 2019.09.??         |
-| Initial `travis-devel` | 2019.08.??         |
+| Target                 | Release date |
+| ---------------------- |--------------|
+| Initial `master` image | 2024.07.?? |
+| Initial `travis` image | 2024.06.01   |
+| Initial `travis-devel` | 2024.05.23   |
 
 ## Contributing
 
